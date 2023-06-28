@@ -1,4 +1,5 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
+import Notiflix from 'notiflix';
 
 const contactsInitialState = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -16,7 +17,9 @@ const contactsSlice = createSlice({
         if (!state.map(contact => contact.name).includes(action.payload.name)) {
           state.push(action.payload);
         } else {
-          alert(`${action.payload.name} is already in contacts.`);
+          Notiflix.Notify.failure(
+            `${action.payload.name} is already in contacts.`
+          );
         }
       },
       prepare(name, number) {
