@@ -1,12 +1,7 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 import Notiflix from 'notiflix';
 
-const contactsInitialState = [
-  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-];
+const contactsInitialState = JSON.parse(localStorage.getItem('phonebook'));
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -16,6 +11,7 @@ const contactsSlice = createSlice({
       reducer(state, action) {
         if (!state.map(contact => contact.name).includes(action.payload.name)) {
           state.push(action.payload);
+          localStorage.setItem('phonebook', JSON.stringify(state));
         } else {
           Notiflix.Notify.failure(
             `${action.payload.name} is already in contacts.`
@@ -35,6 +31,7 @@ const contactsSlice = createSlice({
     deleteContact(state, action) {
       const index = state.findIndex(contact => contact.id === action.payload);
       state.splice(index, 1);
+      localStorage.setItem('phonebook', JSON.stringify(state));
     },
   },
 });

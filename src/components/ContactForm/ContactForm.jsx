@@ -1,9 +1,16 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
 import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css';
 
 export const ContactForm = () => {
+  useEffect(() => {
+    if (localStorage.getItem('phonebook') === null) {
+      localStorage.setItem('phonebook', JSON.stringify([]));
+    }
+  }, []);
+
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
